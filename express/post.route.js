@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 // Require Post model in our routes module
-let postModel = require('./post.model');
+let postmodel = require('./post.model');
 
 // Defined store route
 router.route('/add').post(function (req, res) {
@@ -18,7 +18,7 @@ router.route('/add').post(function (req, res) {
 
 // Defined get data(index or listing) route
 router.route('/').get(function (req, res) {
-  postModel.find(function(err, posts){
+  postmodel.find(function(err, posts){
     if(err){
       res.json(err);
     }
@@ -31,7 +31,7 @@ router.route('/').get(function (req, res) {
 // Defined edit route
 router.route('/edit/:id').get(function (req, res) {
   let id = req.params.id;
-  postModel.findById(id, function (err, post){
+  postmodel.findById(id, function (err, post){
       if(err) {
         res.json(err);
       }
@@ -41,7 +41,7 @@ router.route('/edit/:id').get(function (req, res) {
 
 //  Defined update route
 router.route('/update/:id').post(function (req, res) {
-  postModel.findById(req.params.id, function(err, post) {
+  postmodel.findById(req.params.id, function(err, post) {
     if (!post)
       res.status(404).send("data is not found");
     else {
@@ -59,7 +59,7 @@ router.route('/update/:id').post(function (req, res) {
 
 // Defined delete | remove | destroy route
 router.route('/delete/:id').delete(function (req, res) {
-  postModel.findByIdAndRemove({_id: req.params.id}, function(err){
+  postmodel.findByIdAndRemove({_id: req.params.id}, function(err){
     if(err) res.json(err);
     else res.json('Successfully removed');
   });
