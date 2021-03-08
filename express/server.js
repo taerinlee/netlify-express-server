@@ -16,7 +16,18 @@ mongoose.connect(config.DB, { useNewUrlParser: true }).then(
   err => { console.log('Can not connect to the database'+ err)}
 );
 
-app.use(cors());
+var allowlist = ['http://localhost:8080']
+var corsOptionsDelegate = (req, callback) => {
+  var corsOptions;
+  if (allowlist.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true } // reflect (enable) the requested origin in the CORS response
+  } else {
+    corsOptions = { origin: false } // disable CORS for this request
+  }
+  callback(null, corsOptions) // callback expects two parameters: error and options
+}
+
+app.use(cors(corsOptionsDelegate));
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 
