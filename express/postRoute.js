@@ -1,13 +1,13 @@
 const express = require('express');
-const postRoutes = express.Router();
+const router = express.Router();
 
 // Require Post model in our routes module
 let postModel = require('./postModel');
 
 // Defined store route
-postRoutes.route('/add').post(function (req, res) {
-  let post = new Post(req.body);
-  post.save()
+router.post('/add', (req, res) => {
+  let body = new postModel(req.body);
+  body.save()
     .then(() => {
       res.status(200).json({'business': 'business in added successfully'});
     })
@@ -17,8 +17,8 @@ postRoutes.route('/add').post(function (req, res) {
 });
 
 // Defined get data(index or listing) route
-postRoutes.route('/').get(function (req, res) {
-  postModel.find(function(err, posts){
+router.get('/', (req, res) => {
+  postModel.find((err, posts) => {
     if(err){
       res.json(err);
     }
@@ -29,9 +29,9 @@ postRoutes.route('/').get(function (req, res) {
 });
 
 // Defined edit route
-postRoutes.route('/edit/:id').get(function (req, res) {
+router.get('/edit/:id', (req, res) => {
   let id = req.params.id;
-  postModel.findById(id, function (err, post){
+  postModel.findById(id, (err, post) => {
       if(err) {
         res.json(err);
       }
@@ -40,8 +40,8 @@ postRoutes.route('/edit/:id').get(function (req, res) {
 });
 
 //  Defined update route
-postRoutes.route('/update/:id').post(function (req, res) {
-  postModel.findById(req.params.id, function(err, post) {
+router.post('/update/:id', (req, res) => {
+  postModel.findById(req.params.id, (err, post) => {
     if (!post)
       res.status(404).send("data is not found");
     else {
@@ -58,11 +58,11 @@ postRoutes.route('/update/:id').post(function (req, res) {
 });
 
 // Defined delete | remove | destroy route
-postRoutes.route('/delete/:id').delete(function (req, res) {
-  postModel.findByIdAndRemove({_id: req.params.id}, function(err){
+router.delete('/delete/:id', (req, res) => {
+  postModel.findByIdAndRemove({_id: req.params.id}, (err) => {
     if(err) res.json(err);
     else res.json('Successfully removed');
   });
 });
 
-module.exports = postRoutes;
+module.exports = router;
