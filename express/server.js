@@ -35,5 +35,11 @@ app.use('/.netlify/functions/server', baseRoute);  // path must route to lambda
 app.use('/posts', postRoute);
 app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 
+app.all('/*', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
+
 module.exports = app;
 module.exports.handler = serverless(app);
