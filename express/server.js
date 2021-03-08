@@ -6,7 +6,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const config = require('./DB_localhost.js');
+const config = require('./DB_develop.js');
 const baseRoute = require('./base.route');
 const postRoute = require('./post.route');
 
