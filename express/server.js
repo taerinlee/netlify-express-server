@@ -16,7 +16,7 @@ mongoose.connect(config.DB, { useNewUrlParser: true }).then(
   err => { console.log('Can not connect to the database'+ err)}
 );
 
-var whitelist = ['http://localhost:8080']; //white list consumers
+var whitelist = ['http://localhost:8080', 'https://netlify-mevn-client.netlify.app']; //white list consumers
 var corsOptions = {
   origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
